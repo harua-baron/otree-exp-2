@@ -11,27 +11,20 @@ class C(BaseConstants):
 
 
 class Subsession(BaseSubsession):
-    def creating_session(self):
-        import random
-        players = self.get_players()
-        
-        # 8人ごとにグループを作る
-        for i in range(0, len(players), 8):
-            block = players[i:i+8]
-            
-            if self.round_number == 1:
-                # 1ラウンド目はランダムに2グループ
-                random.shuffle(block)
-                group1 = block[:4]
-                group2 = block[4:]
-            else:
-                # 2ラウンド目以降は同じ8人単位でラウンドごとに再シャッフル
-                random.shuffle(block)
-                group1 = block[:4]
-                group2 = block[4:]
+   def creating_session(self):
+    import random
+    players = self.get_players()
+    all_groups = []
 
-            # oTreeに反映
-            self.set_group_matrix([group1, group2])
+    for i in range(0, len(players), 8):
+        block = players[i:i+8]
+
+        random.shuffle(block)
+        group1 = block[:4]
+        group2 = block[4:]
+        all_groups.extend([group1, group2])
+
+    self.set_group_matrix(all_groups)
 
 
 class Group(BaseGroup):
@@ -184,5 +177,6 @@ def check_timeout_and_missing_q(group: Group, **kwargs):
         if p.timed_out and p.q == 0:
             group.force_terminate = True
             break
+
 
 
