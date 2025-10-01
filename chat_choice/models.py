@@ -14,17 +14,24 @@ class Subsession(BaseSubsession):
     def creating_session(self):
         import random
         players = self.get_players()
-        all_groups = []
+        n = len(players)
 
-        for i in range(0, len(players), 8):
+        if n < 8:
+            raise RuntimeError("このアプリ（set2）は最低8人必要です。")
+        if n % 8 != 0:
+            raise RuntimeError(f"参加者数は8の倍数である必要があります（現在 {n} 人）。")
+
+        group_matrix = []
+
+        # 8人単位のブロックごとに処理
+        for i in range(0, n, 8):
             block = players[i:i+8]
+            random.shuffle(block)  # ← ラウンドごとに毎回シャッフルされる
+            group_matrix.append(block[:4])   # 前半4人
+            group_matrix.append(block[4:])   # 後半4人
 
-            random.shuffle(block)
-            group1 = block[:4]
-            group2 = block[4:]
-            all_groups.extend([group1, group2])
+        self.set_group_matrix(group_matrix)
 
-        self.set_group_matrix(all_groups)
 
 
 class Group(BaseGroup):
@@ -177,6 +184,7 @@ def check_timeout_and_missing_q(group: Group, **kwargs):
         if p.timed_out and p.q == 0:
             group.force_terminate = True
             break
+
 
 
 
