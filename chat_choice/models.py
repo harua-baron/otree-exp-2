@@ -11,7 +11,7 @@ class C(BaseConstants):
 
 
 class Subsession(BaseSubsession):
-   def creating_session(self):
+    def creating_session(self):
     import random
     players = self.get_players()
     all_groups = []
@@ -177,6 +177,7 @@ def check_timeout_and_missing_q(group: Group, **kwargs):
         if p.timed_out and p.q == 0:
             group.force_terminate = True
             break
+
 
 
 
