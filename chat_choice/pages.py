@@ -192,11 +192,6 @@ class ForcedTermination(Page):
         }
     
 
-class BreakPage1(Page):
-    timeout_seconds = 10
-
-    def is_displayed(self):
-        return self.round_number == 7  # 7セット目の後に表示
     
 
 class BreakPage2(Page):
@@ -219,9 +214,9 @@ page_sequence = [
     ResultsWaitPage2,
     Results,
     ForcedTermination,
-    BreakPage1,
     BreakPage2,
 ]
+
 
 
 
