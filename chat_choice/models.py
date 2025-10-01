@@ -12,19 +12,19 @@ class C(BaseConstants):
 
 class Subsession(BaseSubsession):
     def creating_session(self):
-    import random
-    players = self.get_players()
-    all_groups = []
+        import random
+        players = self.get_players()
+        all_groups = []
 
-    for i in range(0, len(players), 8):
-        block = players[i:i+8]
+        for i in range(0, len(players), 8):
+            block = players[i:i+8]
 
-        random.shuffle(block)
-        group1 = block[:4]
-        group2 = block[4:]
-        all_groups.extend([group1, group2])
+            random.shuffle(block)
+            group1 = block[:4]
+            group2 = block[4:]
+            all_groups.extend([group1, group2])
 
-    self.set_group_matrix(all_groups)
+        self.set_group_matrix(all_groups)
 
 
 class Group(BaseGroup):
@@ -177,6 +177,7 @@ def check_timeout_and_missing_q(group: Group, **kwargs):
         if p.timed_out and p.q == 0:
             group.force_terminate = True
             break
+
 
 
 
